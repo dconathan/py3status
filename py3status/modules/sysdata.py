@@ -95,8 +95,12 @@ class GetData:
         of used memory, and units of mem (KiB, MiB, GiB).
         """
 
-        total_mem_kib = memi[keys[0]]
-        mem_free = sum([memi[item] for item in keys[1:]])
+        # total_mem_kib = memi[keys[0]]
+        # mem_free = sum([memi[item] for item in keys[1:]])
+
+        # https://github.com/lasers/py3status/blob/412bc6572bae0256970c68fb70ab9168e9ec1fda/py3status/modules/sysdata.py
+        total_mem_kib = memi["MemTotal:"]
+        mem_free = memi["MemFree:"] + memi["Cached:"] + memi["SReclaimable:"] + memi["Buffers:"] - memi["Shmem:"]
 
         try:
             used_mem_kib = (total_mem_kib - mem_free)
